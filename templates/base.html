@@ -8,6 +8,18 @@
     </title>
 </head>
 <body>
+    <ul>
+        <li><a href="{% url 'index' %}">Главная</a></li>
+        {% for item in menu %}
+            {% if not forloop.last %}
+                <li>
+            {% else %}
+                <li class="last">
+            {% endif %}
+            <a href="{% url item.url_name %}">{{ item.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 {% block content %}
 {% endblock content %}
 
