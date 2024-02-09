@@ -1,0 +1,14 @@
+# Игнорирование временных файлов
+*~
+*.swp
+*.pyc
+
+# Игнорирование файлов базы данных SQLite
+db.sqlite3
+
+# Игнорирование файлов миграций Django
+/appmountain/migrations/
+
+
+secret_key.txt
+settings.py
