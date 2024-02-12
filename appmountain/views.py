@@ -1,16 +1,13 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Mountains
 
 # Create your views here.
 menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить Гору", 'url_name': 'add_mountain'},
         {'title': "Обратная связь", 'url_name': 'contact'},
         {'title': "Войти", 'url_name': 'login'}]
-data_db = [
-    {'id': 1, 'title': 'Уктус', 'content': 'описание горы: Уктус', 'is_published': True},
-    {'id': 2, 'title': 'Ежовая', 'content': 'описание горы: Ежовая', 'is_published': False},
-    {'id': 3, 'title': 'Белая', 'content': 'описание горы: Белая', 'is_published': True},
-]
+
 cats_db = [
     {'id': 1, 'name': 'Отличные'},
     {'id': 2, 'name': 'Норм'},
@@ -19,25 +16,36 @@ cats_db = [
 def page_not_found(request, exceptions):
     return HttpResponseNotFound(f'<h1> Страница не найдена (VIEWS.PY)</h1>')
 def index(request):
+    posts = Mountains.published.all()
     template_name = 'appmountain/index.html'
     data = {
         'title': 'НАЗВАНИЕ',
         'menu': menu,
         'context': 'Горы',
-        'posts': data_db,      # название любое, но ПОСТЫ будут про горы
+        'posts': posts,      # название любое, но ПОСТЫ будут про горы
         'cat_selected': 0      # хотя у нас и там и прописано дефолтное значение - 0, так что это можно не писать
     }
     return render(request, template_name=template_name, context=data)
-def show_mountain(request, mount_id):
-    return HttpResponse(f"Отображение статьи с id = {mount_id}")
+def show_mountain(request, mount_slug):
+    mountain = get_object_or_404(Mountains, slug=mount_slug)
+    template_name = 'appmountain/mountain.html'
+    data = {
+        'title': 'mountain.title',
+        'menu': menu,
+        'context': 'mountain.description',
+        'mountain': mountain,
+        'cat_selected': 1,
+    }
+    return render(request, template_name=template_name, context=data)
 
 def show_category(request, cat_id):
     template_name = 'appmountain/index.html'
+    posts = Mountains.published.all()
     data = {
         'title': 'Отображение по рубрикам',
         'menu': menu,
         'context': 'Горы',
-        'posts': data_db,  # название любое, но ПОСТЫ будут про горы
+        'posts': posts,  # название любое, но ПОСТЫ будут про горы
         'cat_selected': cat_id  # в list_categories будем сравненивать с cat.id и если да - подсвечивать
     }
 

@@ -8,6 +8,6 @@ urlpatterns = [
     path('addmountain/', views.addmountain, name='add_mountain'),
     path('contact/', views.contact, name='contact'),
     path('login/', views.login, name='login'),
-    path('mountain/<int:mount_id>', views.show_mountain, name='mountain'),
+    path('mountain/<slug:mount_slug>', views.show_mountain, name='mountain'),
 
 ]

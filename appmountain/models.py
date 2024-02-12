@@ -27,8 +27,7 @@ class Mountains(models.Model):
     published = PublishedManager()
 
     def get_absolute_url(self):
-        pass
-    # return reverse('post', kwargs={'post_slug': self.slug})
+        return reverse('mountain', kwargs={'mount_slug': self.slug})
 
     def __str__(self):
         return self.title

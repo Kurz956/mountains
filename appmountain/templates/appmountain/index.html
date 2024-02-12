@@ -6,15 +6,16 @@
 
 {% block content %}
     {% include 'appmountain/includes/nav.html' %}
-    <ul>
+    <ul class="content">
         {% for post in posts %}
             {% if post.is_published %}
                 <li>
                     <h2>{{ post.title }}</h2>
                     {% autoescape off %}
-                    <p>{{ post.content|linebreaks|truncatewords:50 }}</p>
+                        <p>{{ post.description|linebreaks|truncatewords:50 }}</p>
                     {% endautoescape %}
-                    <p><a href="{% url 'mountain' post.id %}">Подробнее..</a></p>
+                    <div class="clear"></div>
+                    <p class="link-read-post"><a href="{{ post.get_absolute_url }}">Подробнее..</a></p>
                     {% if not forloop.last %}
                         <hr>
                     {% endif %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ mountain.title }}</h1>
+
+    {% if mountain.photo %}
+        <p><img class="img-article-left" src="{{ mountain.photo.url }}" alt="nothing"></p>
+    {% endif %}
+
+    {{ mountain.description|linebreaks }}
+    {% endblock content %}
