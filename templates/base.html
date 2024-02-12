@@ -1,27 +1,99 @@
+{% load static %}
+{% load mountains_tags %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<!--Bootstrap-->
     <title>
         {% block title %}
         {% endblock title %}
     </title>
+    <title>{{title}}</title>
+	<link type="text/css" href="{% static 'appmountain/css/styles.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'appmountain/images/main.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <ul>
-        <li><a href="{% url 'index' %}">Главная</a></li>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!--Bootstrap-->
+    <table class="table-page" border=0 cellpadding="0" cellspacing="0">
+        <tr><td valign=top>
+
+        <!--
+
+        Сюда можно переписать НАВБАР с бутстрапа
+
+        -->
+
+
+        {% block mainmenu %}
+        		<div class="header">
+        			<ul id="mainmenu" class="mainmenu">
+        			<li class="logo"><a href="{% url 'index' %}"><div class="logo"></div></a></li>
         {% for item in menu %}
-            {% if not forloop.last %}
+        	{% if not forloop.last %}
                 <li>
             {% else %}
                 <li class="last">
             {% endif %}
-            <a href="{% url item.url_name %}">{{ item.title }}</a>
-            </li>
+            <a href="{% url item.url_name %}">{{item.title}}</a></li>
         {% endfor %}
-    </ul>
-{% block content %}
-{% endblock content %}
+        			</ul>
+        			<div class="clear"></div>
+        		</div>
 
+        {% endblock mainmenu %}
+
+
+            <table class="table-content" border=0 cellpadding="0" cellspacing="0">
+            <tr>
+            <!-- Sidebar слева -->
+            {% get_categories as categories %}
+            <td valign="top" class="left-chapters">
+            	<ul id="leftchapters">
+                    {% if cat_selected == 0 or cat_selected is None %}
+            		    <li class="selected">Все категории</li>  <!-- Если выбрана, светится -->
+                    {% else %}
+                        <li><a href="{% url 'index' %}">Все категории</a></li> <!-- Если не выбрана, это просто ссылка сейчас и не светится -->
+                    {% endif %}
+                    {% show_categories cat_selected %} <!-- вся движуха происходит в list_categories из-за templatetags -->
+            		<li class="share">
+            		    <p>Потом придумаю что сюда вставить(base.html sidebar слева)</p>
+            		    <a class="share-yt" href="#" target="_blank" rel="nofollow"></a> <!-- target открывает на новой странице -->
+            		</li>
+
+            	</ul>
+            </td>
+            <!-- Конец Sidebar'а -->
+            <td valign="top" class="content">
+            	<!-- Хлебные крошки -->
+            	{% block breadcrumbs %}
+            	{% endblock %}
+
+            <!-- Блок контента -->
+            <div class="content-text">
+            {% block content %}
+            {% endblock %}
+            	</div>
+            <!-- Конец блока контента -->
+
+            </td></tr></table>
+    </td></tr>
+    <!-- Footer -->
+    <tr><td valign=top>
+    	<div id="footer">
+    		<p>Собираю сайт, чтобы удобно было смотреть, куда поехать покатать</p>
+    	</div>
+    </td></tr></table>
+    <!-- Конец footer'а и страницы -->
 </body>
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
