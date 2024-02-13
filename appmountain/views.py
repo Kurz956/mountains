@@ -16,7 +16,7 @@ cats_db = [
 def page_not_found(request, exceptions):
     return HttpResponseNotFound(f'<h1> Страница не найдена (VIEWS.PY)</h1>')
 def index(request):
-    posts = Mountains.published.all()
+    posts = Mountains.published.all().select_related('cat')
     template_name = 'appmountain/index.html'
     data = {
         'title': 'НАЗВАНИЕ',
@@ -41,7 +41,7 @@ def show_mountain(request, mount_slug):
 def show_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
     template_name = 'appmountain/index.html'
-    posts = Mountains.published.filter(cat_id=category.pk)
+    posts = Mountains.published.filter(cat_id=category.pk).select_related('cat')
     data = {
         'title': f'Отображение по рубрикам {category.name}',
         'menu': menu,
@@ -72,7 +72,7 @@ def login(request):
 def show_tag_mountainlist(request, tag_slug):
     tag = get_object_or_404(TagMountain, slug=tag_slug)
     template_name = 'appmountain/index.html'
-    posts = tag.tags.filter(is_published=Mountains.Status.PUBLISHED)
+    posts = tag.tags.filter(is_published=Mountains.Status.PUBLISHED).select_related('cat')
     data = {
         'title': f'Тег: {tag.tags}',
         'menu': menu,

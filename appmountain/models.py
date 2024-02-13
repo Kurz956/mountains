@@ -27,6 +27,7 @@ class Mountains(models.Model):
     rating = models.IntegerField(blank=True, default=0)
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains')
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')
+    resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, null=True, blank=True, related_name='mountain')
 
     objects = models.Manager()
     published = PublishedManager()
@@ -67,3 +68,9 @@ class TagMountain(models.Model):
         return self.tag
 
 
+class Resort(models.Model):
+    name = models.CharField(max_length=100)
+    stars = models.PositiveSmallIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
