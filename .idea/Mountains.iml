@@ -17,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv_Mountains" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.11 (Mountains)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="venv_Mountains" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">

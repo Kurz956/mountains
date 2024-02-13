@@ -1,5 +1,20 @@
 {% extends 'base.html' %}
 
+
+{% block breadcrumbs %}
+    <!-- Теги -->
+    {% with mountain.tags.all as tags %}
+        {% if tags %}
+            <ul class="tags-list">
+                <li>Теги:</li>
+                {% for tag in tags %}
+                    <li><a href="{{ tag.get_absolute_url }}">{{ tag.tag }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+{% endblock breadcrumbs %}
+
 {% block content %}
     <h1>{{ mountain.title }}</h1>
 
@@ -8,4 +23,4 @@
     {% endif %}
 
     {{ mountain.description|linebreaks }}
-    {% endblock content %}
+{% endblock content %}
