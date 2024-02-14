@@ -11,9 +11,12 @@
             {% if post.is_published %}
                 <li>
                     <div class="article-panel">
-                        <p class="first">Категория {{ post.cat }}</p>
-                        <p class="last">Дата: {{ post.time_update|date:'d-m-Y H:i:s' }}</p>
+                        <p class="first">Категория: {{ post.cat }}</p>
+                        <p class="last">Дата: {{ post.date_updated|date:'d-m-Y H:i:s' }}</p>
                     </div>
+                    {% if post.photo %}
+                        <p><img class="img-article-left" src="{{ post.photo.url }}" alt=""></p>
+                    {% endif %}
                     <h2>{{ post.title }}</h2>
                     {% autoescape off %}
                         <p>{{ post.description|linebreaks|truncatewords:50 }}</p>

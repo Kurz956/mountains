@@ -1,4 +1,6 @@
 from django.contrib import admin, messages
+from django.utils.safestring import mark_safe
+
 from .models import Mountains, Category
 
 
@@ -23,10 +25,10 @@ class ResortFilter(admin.SimpleListFilter):
             return queryset.filter(resort__isnull=True)
 @admin.register(Mountains)
 class MountainsAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'cat', 'tags']
+    fields = ['title', 'slug', 'cat', 'tags', 'photo', 'mountain_photo']
     prepopulated_fields = {'slug': ('title', )}
-    #readonly_fields = ['slug'] не робит вмсте с prepopulated, только если ставить pip install unidecode
-    list_display = ['id', 'title','date_created', 'is_published', 'cat', 'brief_info']
+    readonly_fields =['mountain_photo'] # ['slug'] не робит вмсте с prepopulated, только если ставить pip install unidecode
+    list_display = ['id', 'title','date_created', 'is_published', 'cat', 'brief_info', 'mountain_photo']
     list_display_links = ['id', 'title']
     list_editable = ['is_published', 'cat']
     ordering = ['date_created', 'title']
@@ -35,10 +37,17 @@ class MountainsAdmin(admin.ModelAdmin):
     search_fields = ['title', 'cat__name']
     list_filter = [ResortFilter, 'cat__name', 'is_published']
     filter_horizontal = ['tags']
+    save_on_top = True
 
     @admin.display(description='Краткое описание', ordering='description')
     def brief_info(self, mounts:Mountains):
         return f'Описание из {len(mounts.description)} символов'
+
+    @admin.display(description='Используемое фото')
+    def mountain_photo(self, mounts:Mountains):
+        if mounts.photo:
+            return mark_safe(f'<img src="{ mounts.photo.url}" width=50')
+        return 'Без фото'
 
     @admin.display(description='Опубликовать выбранное')
     def set_published(self, request, queryset):
@@ -49,6 +58,8 @@ class MountainsAdmin(admin.ModelAdmin):
     def set_draft(self, request, queryset):
         count = queryset.update(is_published=Mountains.Status.DRAFT)
         self.message_user(request, f'Снято с публикации {count} шт.', messages.WARNING)
+
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

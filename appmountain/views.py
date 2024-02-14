@@ -1,6 +1,8 @@
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404
-from .models import Mountains, Category, TagMountain
+from django.shortcuts import render, get_object_or_404, redirect
+
+from .forms import AddMountainForm, UploadFileForm
+from .models import Mountains, Category, TagMountain, UploadFiles
 
 # Create your views here.
 menu = [{'title': "О сайте", 'url_name': 'about'},
@@ -21,7 +23,6 @@ def index(request):
     data = {
         'title': 'НАЗВАНИЕ',
         'menu': menu,
-        'context': 'Горы',
         'posts': posts,      # название любое, но ПОСТЫ будут про горы
         'cat_selected': 0      # хотя у нас и там и прописано дефолтное значение - 0, так что это можно не писать
     }
@@ -51,18 +52,42 @@ def show_category(request, cat_slug):
 
     return render(request, template_name=template_name, context=data)
 
+
 def about(request):
-    template_name = 'appmountain/about.html'
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            fp = UploadFiles(file=form.cleaned_data['file'])
+            fp.save()
+    else:
+        form = UploadFileForm()
     data = {
-        'title': 'О Сайте',
-        'context': 'about context',
+        'title': 'О сайте',
         'menu': menu,
+        'form': form,
     }
+    template_name = 'appmountain/about.html'
     return render(request, template_name=template_name, context=data)
 
 
 def addmountain(request):
-    return HttpResponse("Добавление статьи")
+    if request.method == 'POST':
+        form = AddMountainForm(request.POST , request.FILES)
+        if form.is_valid():
+            #print(form.cleaned_data)
+            form.save()
+            return redirect('index')
+
+    else:
+        form = AddMountainForm()
+
+    template_name = 'appmountain/addmountain.html'
+    data = {
+        'menu': menu,
+        'title':"Добавление статьи",
+        'form': form,
+    }
+    return render(request, template_name=template_name, context=data)
 def contact(request):
     return HttpResponse("Обратная связь")
 def login(request):

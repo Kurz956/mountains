@@ -19,15 +19,19 @@ class Mountains(models.Model):
         PUBLISHED = 1, 'Опубликовано'
 
     title = models.CharField(max_length=100, verbose_name='Название')
-    slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug',
+                            validators=[
+                                MinLengthValidator(5),
+                                MaxLengthValidator(100),
+                            ])
     description = models.TextField(blank=True, verbose_name='Описание')
     is_published = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.DRAFT, verbose_name='Статус')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
-    distance = models.IntegerField(blank=True, default=0, verbose_name='Дорога из Екб в км')
-    photo = models.ImageField(upload_to='photos/', default=None, blank=True, verbose_name='Фото')
+    distance = models.PositiveIntegerField(blank=True, default=0, verbose_name='Дорога из Екб в км')
+    photo = models.ImageField(upload_to='photos/', default=None, blank=True, null=True, verbose_name='Фото')
     weather = models.IntegerField(blank=True, default=0, verbose_name='Погода')
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains')
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains', blank=True)
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')
     resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, null=True, blank=True, related_name='mountain')
 
@@ -78,3 +82,6 @@ class Resort(models.Model):
 
     def __str__(self):
         return self.name
+
+class UploadFiles(models.Model):
+    file = models.FileField(upload_to='uploads_model')
