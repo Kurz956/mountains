@@ -11,20 +11,22 @@ class PublishedManager(models.Manager):
 
 
 class Mountains(models.Model):
+    class Meta:
+        verbose_name = 'Гора'
+        verbose_name_plural = 'Горы'
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
     title = models.CharField(max_length=100, verbose_name='Название')
-    slug = models.CharField(max_length=100, verbose_name='Slug')
+    slug = models.SlugField(max_length=100, unique=True, verbose_name='Slug')
     description = models.TextField(blank=True, verbose_name='Описание')
     is_published = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.DRAFT, verbose_name='Статус')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
-    distance = models.IntegerField(blank=True, default=0)
+    distance = models.IntegerField(blank=True, default=0, verbose_name='Дорога из Екб в км')
     photo = models.ImageField(upload_to='photos/', default=None, blank=True, verbose_name='Фото')
-    weather = models.IntegerField(blank=True, default=0)
-    rating = models.IntegerField(blank=True, default=0)
+    weather = models.IntegerField(blank=True, default=0, verbose_name='Погода')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains')
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')
     resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, null=True, blank=True, related_name='mountain')
@@ -38,13 +40,14 @@ class Mountains(models.Model):
     def __str__(self):
         return self.title
 
-    class Meta:
-        verbose_name = 'Гора'
-        verbose_name_plural = 'Горы'
-
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
+    class Meta:
+        verbose_name = 'Рейтинг'
+        verbose_name_plural = 'Рейтинг'
+
+
+    name = models.CharField(max_length=100, db_index=True, verbose_name='Рейтинг')
     slug = models.SlugField(max_length=200, unique=True, db_index=True)
 
     def get_absolute_url(self):
@@ -52,6 +55,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 
