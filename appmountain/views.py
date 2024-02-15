@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -24,6 +25,7 @@ class MountainIndex(DataMixin, ListView):
     model = Mountains
     template_name = 'appmountain/index.html'
     context_object_name = 'posts'
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         return self.get_mixin_context(super().get_context_data(**kwargs),
@@ -75,16 +77,24 @@ class MountainCategory(DataMixin, ListView):
 
 
 def about(request):
-    if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            fp = UploadFiles(file=form.cleaned_data['file'])
-            fp.save()
-    else:
-        form = UploadFileForm()
+    contact_list = Mountains.published.all()
+    paginator = Paginator(contact_list, 2)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+
+    # if request.method == 'POST':
+    #     form = UploadFileForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         fp = UploadFiles(file=form.cleaned_data['file'])
+    #         fp.save()
+    # else:
+    #     form = UploadFileForm()
     data = {
         'title': 'О сайте',
-        'form': form,
+       # 'form': form,
+        'page_obj': page_obj,
     }
     template_name = 'appmountain/about.html'
     return render(request, template_name=template_name, context=data)

@@ -26,6 +26,7 @@
       <list>
         <option value="$MODULE_DIR$/templates" />
         <option value="$MODULE_DIR$/appmountain/templates" />
+        <option value="$MODULE_DIR$/appusers/templates" />
       </list>
     </option>
   </component>
