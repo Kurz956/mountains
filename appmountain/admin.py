@@ -25,10 +25,10 @@ class ResortFilter(admin.SimpleListFilter):
             return queryset.filter(resort__isnull=True)
 @admin.register(Mountains)
 class MountainsAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'cat', 'tags', 'photo', 'mountain_photo']
+    fields = ['title', 'slug', 'description','cat', 'tags', 'photo', 'mountain_photo']
     prepopulated_fields = {'slug': ('title', )}
     readonly_fields =['mountain_photo'] # ['slug'] не робит вмсте с prepopulated, только если ставить pip install unidecode
-    list_display = ['id', 'title','date_created', 'is_published', 'cat', 'brief_info', 'mountain_photo']
+    list_display = ['id', 'title', 'description', 'date_created', 'is_published', 'cat', 'brief_info', 'mountain_photo']
     list_display_links = ['id', 'title']
     list_editable = ['is_published', 'cat']
     ordering = ['date_created', 'title']

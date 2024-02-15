@@ -1,5 +1,8 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView
 
 from .forms import AddMountainForm, UploadFileForm
 from .models import Mountains, Category, TagMountain, UploadFiles
@@ -17,41 +20,68 @@ cats_db = [
 ]
 def page_not_found(request, exceptions):
     return HttpResponseNotFound(f'<h1> Страница не найдена (VIEWS.PY)</h1>')
-def index(request):
-    posts = Mountains.published.all().select_related('cat')
+
+class MountainIndex(ListView):
+    model = Mountains
     template_name = 'appmountain/index.html'
-    data = {
+    context_object_name = 'posts'
+    extra_context = {
         'title': 'НАЗВАНИЕ',
         'menu': menu,
-        'posts': posts,      # название любое, но ПОСТЫ будут про горы
-        'cat_selected': 0      # хотя у нас и там и прописано дефолтное значение - 0, так что это можно не писать
+
+        'cat_selected': 0  # хотя у нас и там и прописано дефолтное значение - 0, так что это можно не писать
     }
-    return render(request, template_name=template_name, context=data)
-def show_mountain(request, mount_slug):
-    mountain = get_object_or_404(Mountains, slug=mount_slug)
+    #
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        context['menu'] = menu
+        context['cat_selected'] = 0
+        return context
+
+    def get_queryset(self):
+        return Mountains.objects.all().select_related('cat')
+
+class ShowMountain(DetailView):
+    model = Mountains
     template_name = 'appmountain/mountain.html'
-    data = {
-        'title': 'mountain.title',
-        'menu': menu,
-        'context': 'mountain.description',
-        'mountain': mountain,
-        'cat_selected': 1,
-    }
-    return render(request, template_name=template_name, context=data)
+    slug_url_kwarg = 'mount_slug'
+    context_object_name = 'mountain'
 
-def show_category(request, cat_slug):
-    category = get_object_or_404(Category, slug=cat_slug)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['mountain']
+        context['menu'] = menu
+        return context
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Mountains.published, slug=self.kwargs[self.slug_url_kwarg])
+
+
+class UpdateMountain(UpdateView):
+    model = Mountains
+    fields = ['title', 'description', 'photo', 'is_published', 'cat']
+    template_name = 'appmountain/addmountain.html'
+    success_url = reverse_lazy('index')
+    extra_context = {
+        'menu': menu,
+        'title': "Редактирование статьи",
+    }
+class MountainCategory(ListView):
     template_name = 'appmountain/index.html'
-    posts = Mountains.published.filter(cat_id=category.pk).select_related('cat')
-    data = {
-        'title': f'Отображение по рубрикам {category.name}',
-        'menu': menu,
-        'posts': posts,  # название любое, но ПОСТЫ будут про горы
-        'cat_selected': category.pk  # в list_categories будем сравненивать с cat.id и если да - подсвечивать
-    }
+    context_object_name = 'posts'
+    allow_empty = False
 
-    return render(request, template_name=template_name, context=data)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cat = context['posts'][0].cat
+        context['title'] = f'Категория - {cat.name}'
+        context['menu'] = menu
+        context['cat_selected'] = cat.id
+        return context
 
+    def get_queryset(self):
+        return Mountains.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
 
 def about(request):
     if request.method == 'POST':
@@ -69,40 +99,31 @@ def about(request):
     template_name = 'appmountain/about.html'
     return render(request, template_name=template_name, context=data)
 
-
-def addmountain(request):
-    if request.method == 'POST':
-        form = AddMountainForm(request.POST , request.FILES)
-        if form.is_valid():
-            #print(form.cleaned_data)
-            form.save()
-            return redirect('index')
-
-    else:
-        form = AddMountainForm()
-
+class AddMountain(CreateView):
+    form_class = AddMountainForm
     template_name = 'appmountain/addmountain.html'
-    data = {
+    extra_context = {
         'menu': menu,
-        'title':"Добавление статьи",
-        'form': form,
+        'title': "Добавление статьи",
     }
-    return render(request, template_name=template_name, context=data)
+
 def contact(request):
     return HttpResponse("Обратная связь")
 def login(request):
     return HttpResponse("Авторизация")
 
-
-def show_tag_mountainlist(request, tag_slug):
-    tag = get_object_or_404(TagMountain, slug=tag_slug)
+class TagMountainList(ListView):
     template_name = 'appmountain/index.html'
-    posts = tag.tags.filter(is_published=Mountains.Status.PUBLISHED).select_related('cat')
-    data = {
-        'title': f'Тег: {tag.tags}',
-        'menu': menu,
-        'posts': posts,  # название любое, но ПОСТЫ будут про горы
-        'cat_selected': None  # в list_categories будем сравненивать с cat.id и если да - подсвечивать
-    }
+    context_object_name = 'posts'
+    allow_empty = False
 
-    return render(request, template_name=template_name, context=data)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag = context['posts'][0].tags
+        context['title'] = f'Тэг - {tag.name}'
+        context['menu'] = menu
+        context['cat_selected'] = None
+        return context
+
+    def get_queryset(self):
+        return Mountains.published.filter(tags__slug=self.kwargs['tag_slug']).select_related('cat')
