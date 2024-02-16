@@ -34,6 +34,8 @@ class Mountains(models.Model):
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains', blank=True)
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')
     resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, null=True, blank=True, related_name='mountain')
+    author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='author', null=True,
+                               default=None)
 
     objects = models.Manager()
     published = PublishedManager()

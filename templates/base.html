@@ -48,12 +48,12 @@
 
 
                     {% if user.is_authenticated %}
-                        <li class="last">{{ user.username }} | <a href="{% url 'users:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a></li>
+                        <li class="last"> <a href="{% url 'users:profile' %}">{{user.username}}</a> | <a href="{% url 'users:logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выйти</a></li>
                         <form id="logout-form" action="{% url 'users:logout' %}" method="post" style="display: none;">
                             {% csrf_token %}
                         </form>
                     {% else %}
-                        <li class="last"><a href="{% url 'users:login' %}">Войти</a> | <a href="#">Регистрация</a></li>
+                        <li class="last"><a href="{% url 'users:login' %}">Войти</a> | <a href="{% url 'users:register' %}">Регистрация</a></li>
                     {% endif %}
 
 

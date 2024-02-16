@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, get_object_or_404, redirect
@@ -76,6 +78,7 @@ class MountainCategory(DataMixin, ListView):
         return Mountains.published.filter(cat__slug=self.kwargs['cat_slug']).select_related('cat')
 
 
+@login_required
 def about(request):
     contact_list = Mountains.published.all()
     paginator = Paginator(contact_list, 2)
@@ -100,11 +103,15 @@ def about(request):
     return render(request, template_name=template_name, context=data)
 
 
-class AddMountain(DataMixin, CreateView):
+class AddMountain(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddMountainForm
     template_name = 'appmountain/addmountain.html'
     title_page = "Добавление статьи"
 
+    def form_valid(self, form):
+        mount = form.save(commit=False)
+        mount.author = self.request.user
+        return super().form_valid(form)
 
 def contact(request):
     return HttpResponse("Обратная связь")

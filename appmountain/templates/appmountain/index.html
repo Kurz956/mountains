@@ -11,7 +11,7 @@
             {% if post.is_published %}
                 <li>
                     <div class="article-panel">
-                        <p class="first">Категория: {{ post.cat }}</p>
+                        <p class="first">Категория: {{ post.cat }} | автор: {{ post.author.username|default:"неизвестен" }}</p>
                         <p class="last">Дата: {{ post.date_updated|date:'d-m-Y H:i:s' }}</p>
                     </div>
                     {% if post.photo %}
