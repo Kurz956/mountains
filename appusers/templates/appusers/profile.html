@@ -5,6 +5,12 @@
 
     <form method="post">
         {% csrf_token %}
+        {% if user.photo %}
+            <p ><img src="{{ user.photo.url }}">
+        {% else %}
+            <p ><img src="{{ default_image }}">
+        {% endif %}
+
         <div class="form-error">{{ form.non_field_errors }}</div>
 
         {% for f in form %}
