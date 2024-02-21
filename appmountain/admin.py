@@ -32,7 +32,7 @@ class MountainsAdmin(admin.ModelAdmin):
     list_display_links = ['id', 'title']
     list_editable = ['is_published', 'cat']
     ordering = ['date_created', 'title']
-    list_per_page = 5
+    list_per_page = 10
     actions = ['set_published', 'set_draft']
     search_fields = ['title', 'cat__name']
     list_filter = [ResortFilter, 'cat__name', 'is_published']

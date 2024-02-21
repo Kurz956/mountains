@@ -1,13 +1,12 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse, reverse_lazy
-from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from .forms import AddMountainForm, UploadFileForm
+from .forms import AddMountainForm
 from .models import Mountains, Category, TagMountain, UploadFiles
 from .utils import DataMixin
 
@@ -52,12 +51,13 @@ class ShowMountain(DataMixin, DetailView):
         return get_object_or_404(Mountains.published, slug=self.kwargs[self.slug_url_kwarg])
 
 
-class UpdateMountain(UpdateView):
+class UpdateMountain(PermissionRequiredMixin, UpdateView):
     model = Mountains
     fields = ['title', 'description', 'photo', 'is_published', 'cat']
     template_name = 'appmountain/addmountain.html'
     success_url = reverse_lazy('index')
     title_page = "Редактирование статьи"
+    permission_required = 'appmountain.change_mountains'
 
 
 class MountainCategory(DataMixin, ListView):
@@ -103,16 +103,18 @@ def about(request):
     return render(request, template_name=template_name, context=data)
 
 
-class AddMountain(LoginRequiredMixin, DataMixin, CreateView):
+class AddMountain(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddMountainForm
     template_name = 'appmountain/addmountain.html'
     title_page = "Добавление статьи"
+    permission_required = 'appmountain.add_mountains'
 
     def form_valid(self, form):
         mount = form.save(commit=False)
         mount.author = self.request.user
         return super().form_valid(form)
 
+@permission_required(perm='appmountain.veiw_mountains', raise_exception=True)
 def contact(request):
     return HttpResponse("Обратная связь")
 def login(request):
