@@ -16,16 +16,16 @@
                             {% if post.green or post.blue or post.red or post.black %}
                                 сложность:
                                 {% if post.green %}
-                                    <img src="{{ media_source }}green.jpg" alt="green" width="25"> {{ post.green }}
+                                    <img src="{{ media_source }}green.jpg" alt="green" width="25" title="Учебные"> {{ post.green }}
                                 {%  endif %}
                                 {% if post.blue %}
-                                    <img src="{{ media_source }}blue.jpg" alt="blue" width="25"> {{ post.blue }}
+                                    <img src="{{ media_source }}blue.jpg" alt="blue" width="25" title="Легкие"> {{ post.blue }}
                                 {%  endif %}
                                 {% if post.red %}
-                                    <img src="{{ media_source }}red.jpg" alt="green" width="25"> {{ post.red }}
+                                    <img src="{{ media_source }}red.jpg" alt="red" width="25" title="Продвинутые"> {{ post.red }}
                                 {%  endif %}
                                 {% if post.black %}
-                                    <img src="{{ media_source }}black.jpg" alt="green" width="25"> {{ post.black }}
+                                    <img src="{{ media_source }}black.jpg" alt="black" width="25" title="Сложные"> {{ post.black }}
                                 {%  endif %}
                             {%  endif %}
                         </p>

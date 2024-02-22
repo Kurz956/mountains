@@ -33,6 +33,7 @@ class MountainIndex(DataMixin, ListView):
         return self.get_mixin_context(super().get_context_data(**kwargs),
                                       title='Главная страница',
                                       cat_selected=0,
+                                      green = 'media/photos/difficulty/green.jpg',
                                       media_source = 'media/photos/difficulty/',
                                       )
 
@@ -80,7 +81,8 @@ class MountainCategory(DataMixin, ListView):
         return self.get_mixin_context(context,
                                       title = f'Категория - {cat.name}',
                                       cat_selected = cat.id,
-                                      media_source = '',
+                                      #green = context.object_list.model._meta.fields[11].verbose_name,
+                                      media_source = '/media/photos/difficulty/',
                                       )
 
 

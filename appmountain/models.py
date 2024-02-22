@@ -37,7 +37,7 @@ class Mountains(models.Model):
     blue = models.IntegerField(blank=True, default=0, verbose_name='Легкие')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains', blank=True)
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')
-    resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, null=True, blank=True, related_name='mountain')
+    resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, default=None, null=True, blank=True, related_name='mountain')
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='author', null=True,
                                default=None)
 
@@ -71,7 +71,7 @@ class Category(models.Model):
 
 class TagMountain(models.Model):
     tag = models.CharField(max_length=100, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, blank=True, null=True, default=None)
 
 
     def get_absolute_url(self):
@@ -85,9 +85,14 @@ class TagMountain(models.Model):
 class Resort(models.Model):
     name = models.CharField(max_length=100)
     stars = models.PositiveSmallIntegerField(default=0)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
+    def get_absolute_url(self):
+        return reverse('resort', kwargs={'resort_slug': self.slug})
 
     def __str__(self):
         return self.name
+
 
 class UploadFiles(models.Model):
     file = models.FileField(upload_to='uploads_model')
