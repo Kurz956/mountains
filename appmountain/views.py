@@ -23,6 +23,7 @@ def page_not_found(request, exceptions):
 
 
 class MountainIndex(DataMixin, ListView):
+    '''Основная страница ресурса'''
     model = Mountains
     template_name = 'appmountain/index.html'
     context_object_name = 'posts'
@@ -31,12 +32,15 @@ class MountainIndex(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         return self.get_mixin_context(super().get_context_data(**kwargs),
                                       title='Главная страница',
-                                      cat_selected=0,)
+                                      cat_selected=0,
+                                      media_source = 'media/photos/difficulty/',
+                                      )
 
     def get_queryset(self):
         return Mountains.objects.all().select_related('cat')
 
 class ShowMountain(DataMixin, DetailView):
+    '''Детализированная страница горы'''
     model = Mountains
     template_name = 'appmountain/mountain.html'
     slug_url_kwarg = 'mount_slug'
@@ -45,13 +49,15 @@ class ShowMountain(DataMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(context,
-                                      title=context['mountain'])
+                                      title=context['mountain'],
+                                      )
 
     def get_object(self, queryset=None):
         return get_object_or_404(Mountains.published, slug=self.kwargs[self.slug_url_kwarg])
 
 
 class UpdateMountain(PermissionRequiredMixin, UpdateView):
+    '''Редактирование горы'''
     model = Mountains
     fields = ['title', 'description', 'photo', 'is_published', 'cat']
     template_name = 'appmountain/addmountain.html'
@@ -61,9 +67,12 @@ class UpdateMountain(PermissionRequiredMixin, UpdateView):
 
 
 class MountainCategory(DataMixin, ListView):
+    '''Категории качества горы в левом сайдбаре'''
     template_name = 'appmountain/index.html'
     context_object_name = 'posts'
     allow_empty = False
+
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,6 +80,7 @@ class MountainCategory(DataMixin, ListView):
         return self.get_mixin_context(context,
                                       title = f'Категория - {cat.name}',
                                       cat_selected = cat.id,
+                                      media_source = '',
                                       )
 
 
@@ -87,16 +97,8 @@ def about(request):
     page_obj = paginator.get_page(page_number)
 
 
-    # if request.method == 'POST':
-    #     form = UploadFileForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         fp = UploadFiles(file=form.cleaned_data['file'])
-    #         fp.save()
-    # else:
-    #     form = UploadFileForm()
     data = {
         'title': 'О сайте',
-       # 'form': form,
         'page_obj': page_obj,
     }
     template_name = 'appmountain/about.html'
@@ -104,6 +106,7 @@ def about(request):
 
 
 class AddMountain(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, CreateView):
+    '''Добавление горы на ресурс'''
     form_class = AddMountainForm
     template_name = 'appmountain/addmountain.html'
     title_page = "Добавление статьи"
@@ -114,14 +117,17 @@ class AddMountain(PermissionRequiredMixin, LoginRequiredMixin, DataMixin, Create
         mount.author = self.request.user
         return super().form_valid(form)
 
-@permission_required(perm='appmountain.veiw_mountains', raise_exception=True)
+#@permission_required(perm='appmountain.veiw_mountains', raise_exception=True)
 def contact(request):
-    return HttpResponse("Обратная связь")
-def login(request):
-    return HttpResponse("Авторизация")
+    template_name = 'appmountain/feedback.html'
+    data = {
+        'title': 'Обратная связь'
+    }
+    return render(request, template_name=template_name, context=data)
 
 
 class TagMountainList(DataMixin, ListView):
+    '''Горные теги'''
     template_name = 'appmountain/index.html'
     context_object_name = 'posts'
     allow_empty = False

@@ -1,7 +1,8 @@
-menu = [{'title': "О сайте", 'url_name': 'about'},
+menu = [
+        {'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить Гору", 'url_name': 'add_mountain'},
         {'title': "Обратная связь", 'url_name': 'contact'},
-        {'title': "Войти", 'url_name': 'login'}]
+        ]
 
 class DataMixin:
     title_page = None

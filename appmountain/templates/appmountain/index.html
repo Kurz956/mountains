@@ -11,8 +11,28 @@
             {% if post.is_published %}
                 <li>
                     <div class="article-panel">
-                        <p class="first">Категория: {{ post.cat }} | автор: {{ post.author.username|default:"неизвестен" }}</p>
-                        <p class="last">Дата: {{ post.date_updated|date:'d-m-Y H:i:s' }}</p>
+                        <p class="first">Категория: {{ post.cat }} |
+                            автор: {{ post.author.username|default:"неизвестен" }} |
+                            {% if post.green or post.blue or post.red or post.black %}
+                                сложность:
+                                {% if post.green %}
+                                    <img src="{{ media_source }}green.jpg" alt="green" width="25"> {{ post.green }}
+                                {%  endif %}
+                                {% if post.blue %}
+                                    <img src="{{ media_source }}blue.jpg" alt="blue" width="25"> {{ post.blue }}
+                                {%  endif %}
+                                {% if post.red %}
+                                    <img src="{{ media_source }}red.jpg" alt="green" width="25"> {{ post.red }}
+                                {%  endif %}
+                                {% if post.black %}
+                                    <img src="{{ media_source }}black.jpg" alt="green" width="25"> {{ post.black }}
+                                {%  endif %}
+                            {%  endif %}
+                        </p>
+
+
+
+                        <p class="last">обновлено : {{ post.date_updated|date:'d-m-Y' }}</p>
                     </div>
                     {% if post.photo %}
                         <p><img class="img-article-left" src="{{ post.photo.url }}" alt=""></p>
