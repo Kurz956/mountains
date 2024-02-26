@@ -14,6 +14,8 @@ class Mountains(models.Model):
     class Meta:
         verbose_name = 'Гора'
         verbose_name_plural = 'Горы'
+        ordering = ['title']
+
     class Status(models.IntegerChoices):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
@@ -35,6 +37,7 @@ class Mountains(models.Model):
     green = models.IntegerField(blank=True, default=0, verbose_name='Учебные')
     black = models.IntegerField(blank=True, default=0, verbose_name='Сложные')
     blue = models.IntegerField(blank=True, default=0, verbose_name='Легкие')
+    link = models.CharField(max_length=500, blank=True, default='', verbose_name='Линк')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains', blank=True)
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')
     resort = models.OneToOneField('Resort', on_delete=models.SET_NULL, default=None, null=True, blank=True, related_name='mountain')
@@ -70,6 +73,11 @@ class Category(models.Model):
 
 
 class TagMountain(models.Model):
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'Тэги'
+
+
     tag = models.CharField(max_length=100, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True, blank=True, null=True, default=None)
 
@@ -83,9 +91,15 @@ class TagMountain(models.Model):
 
 
 class Resort(models.Model):
-    name = models.CharField(max_length=100)
-    stars = models.PositiveSmallIntegerField(default=0)
+    class Meta:
+        verbose_name = 'Курорт'
+        verbose_name_plural = 'Курорты'
+
+
+    name = models.CharField(max_length=100, verbose_name='Название')
+    stars = models.PositiveSmallIntegerField(default=0, verbose_name='Рейтинг инфраструктуры')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    description = models.TextField(blank=True, verbose_name='Описание')
 
     def get_absolute_url(self):
         return reverse('resort', kwargs={'resort_slug': self.slug})

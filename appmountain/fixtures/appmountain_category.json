@@ -1,0 +1,26 @@
+[
+{
+  "model": "appmountain.category",
+  "pk": 1,
+  "fields": {
+    "name": "Отлично",
+    "slug": "otlichno"
+  }
+},
+{
+  "model": "appmountain.category",
+  "pk": 2,
+  "fields": {
+    "name": "Похвально",
+    "slug": "pohvalno"
+  }
+},
+{
+  "model": "appmountain.category",
+  "pk": 3,
+  "fields": {
+    "name": "Проходняк",
+    "slug": "prohodnyak"
+  }
+}
+]

@@ -1,8 +1,7 @@
 from django.contrib import admin, messages
 from django.utils.safestring import mark_safe
 
-from .models import Mountains, Category
-
+from .models import Mountains, Category, TagMountain, Resort
 
 # Register your models here.
 admin.site.site_header = 'Горная админка'
@@ -27,7 +26,7 @@ class ResortFilter(admin.SimpleListFilter):
 class MountainsAdmin(admin.ModelAdmin):
     fields = [
         'title', 'slug', 'description','cat', 'tags', 'photo', 'mountain_photo',
-        'weather', 'green', 'blue', 'red', 'black'
+        'weather', 'green', 'blue', 'red', 'black', 'link'
     ]
     prepopulated_fields = {'slug': ('title', )}
     readonly_fields =['mountain_photo'] # ['slug'] не робит вмсте с prepopulated, только если ставить pip install unidecode
@@ -68,3 +67,15 @@ class MountainsAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
     list_display_links = ['id', 'name']
+
+@admin.register(TagMountain)
+class TagMountainAdmin(admin.ModelAdmin):
+    list_display = ['id', 'tag']
+    list_display_links = ['id']
+
+
+@admin.register(Resort)
+class ResortAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'stars', 'description']
+    list_display_links = ['id']
+    prepopulated_fields = {'slug': ('name',)}

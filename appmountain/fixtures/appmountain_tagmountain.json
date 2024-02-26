@@ -1,0 +1,90 @@
+[
+{
+  "model": "appmountain.tagmountain",
+  "pk": 1,
+  "fields": {
+    "tag": "фрирайд",
+    "slug": "freeride"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 2,
+  "fields": {
+    "tag": "сноупарк",
+    "slug": "snowpark"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 3,
+  "fields": {
+    "tag": "красные",
+    "slug": "red"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 4,
+  "fields": {
+    "tag": "синие",
+    "slug": "blue"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 5,
+  "fields": {
+    "tag": "черные",
+    "slug": "black"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 6,
+  "fields": {
+    "tag": "зеленые",
+    "slug": "green"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 7,
+  "fields": {
+    "tag": "маршруты > 1500",
+    "slug": "1way__gt1500"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 8,
+  "fields": {
+    "tag": "маршруты > 2500",
+    "slug": "1way__gt2500"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 9,
+  "fields": {
+    "tag": "разница высоты > 100",
+    "slug": "hightdifference__gt100"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 10,
+  "fields": {
+    "tag": "разница высоты > 200",
+    "slug": "hightdifference__gt200"
+  }
+},
+{
+  "model": "appmountain.tagmountain",
+  "pk": 11,
+  "fields": {
+    "tag": "кресельный подъемник",
+    "slug": "chairlift"
+  }
+}
+]

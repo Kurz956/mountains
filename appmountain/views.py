@@ -81,7 +81,6 @@ class MountainCategory(DataMixin, ListView):
         return self.get_mixin_context(context,
                                       title = f'Категория - {cat.name}',
                                       cat_selected = cat.id,
-                                      #green = context.object_list.model._meta.fields[11].verbose_name,
                                       media_source = '/media/photos/difficulty/',
                                       )
 
@@ -139,6 +138,7 @@ class TagMountainList(DataMixin, ListView):
         tag = context['posts'][0].tags
         return self.get_mixin_context(context,
                                       title = f'Тэг - {tag.name}',
+                                      media_source='/media/photos/difficulty/',
                                       )
 
 
