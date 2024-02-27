@@ -34,7 +34,8 @@ class MountainIndex(DataMixin, ListView):
                                       title='Главная страница',
                                       cat_selected=0,
                                       green = 'media/photos/difficulty/green.jpg',
-                                      media_source = 'media/photos/difficulty/',
+                                      media_source_difficulty = 'media/photos/difficulty/',
+                                      media_source_lifters = 'media/photos/lifters/',
                                       )
 
     def get_queryset(self):
@@ -81,7 +82,8 @@ class MountainCategory(DataMixin, ListView):
         return self.get_mixin_context(context,
                                       title = f'Категория - {cat.name}',
                                       cat_selected = cat.id,
-                                      media_source = '/media/photos/difficulty/',
+                                      media_source_difficulty = '/media/photos/difficulty/',
+                                      media_source_lifters = '/media/photos/lifters/',
                                       )
 
 
@@ -138,7 +140,8 @@ class TagMountainList(DataMixin, ListView):
         tag = context['posts'][0].tags
         return self.get_mixin_context(context,
                                       title = f'Тэг - {tag.name}',
-                                      media_source='/media/photos/difficulty/',
+                                      media_source_difficulty='/media/photos/difficulty/',
+                                      media_source_lifters='/media/photos/lifters/',
                                       )
 
 
