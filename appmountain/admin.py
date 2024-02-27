@@ -26,6 +26,7 @@ class ResortFilter(admin.SimpleListFilter):
 class MountainsAdmin(admin.ModelAdmin):
     fields = [
         'title', 'slug', 'description','cat', 'tags', 'photo', 'mountain_photo',
+        'lift_baby', 'lift_bugel', 'lift_chair', 'lift_cabin',
         'weather', 'green', 'blue', 'red', 'black', 'link'
     ]
     prepopulated_fields = {'slug': ('title', )}

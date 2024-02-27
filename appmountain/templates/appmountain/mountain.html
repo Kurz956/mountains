@@ -2,7 +2,7 @@
 
 
 {% block breadcrumbs %}
-
+<!-- ПОГОДА -->
 {%  if mountain.weather != 0 %}
     <a class="weatherwidget-io" href="{{ mountain.weather }}" data-label_1="{{ mountain.title }}" data-label_2="Погода сейчас" data-font="Trebuchet MS" data-icons="Climacons Animated" data-days="3" data-theme="weather_one" >{{ mountain.title }} Погода сейчас</a>
     <script>
@@ -11,8 +11,8 @@
                 js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';
                 fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
     </script>
-
 {% endif %}
+<!-- ПОГОДА -->
 
     {% if perms.appmountain.change_mountains %}
         <p><a href="{% url 'edit_mountain' mountain.slug %}">Редактировать</a></p>
@@ -29,6 +29,9 @@
             </ul>
         {% endif %}
     {% endwith %}
+    <!-- Link -->
+    <hr>
+    <a href="{{ mountain.link }}">Ссылка на источник</a>
 {% endblock breadcrumbs %}
 
 {% block content %}
