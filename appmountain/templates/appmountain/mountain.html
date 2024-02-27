@@ -18,7 +18,7 @@
         <p><a href="{% url 'edit_mountain' mountain.slug %}">Редактировать</a></p>
     {% endif %}
 
-    <!-- Теги -->
+<!-- Теги -->
     {% with mountain.tags.all as tags %}
         {% if tags %}
             <ul class="tags-list">
@@ -29,9 +29,9 @@
             </ul>
         {% endif %}
     {% endwith %}
-    <!-- Link -->
+<!-- Link -->
     <hr>
-    <a href="{{ mountain.link }}" target="_blank">Ссылка на источник</a>
+    <h2><a href="{{ mountain.link }}" target="_blank">Ссылка на источник</a></h2>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -40,7 +40,87 @@
         <p><img class="img-article-left" src="{{ mountain.photo.url }}" alt="nothing"></p>
     {% endif %}
     {{ mountain.description|linebreaks }}
+    <br>
+    <hr>
+<!-- Трассы -->
+    <h2>Количество трасс на горе {{ mountain.title }}: {{ mountain.green|add:mountain.blue|add:mountain.red|add:mountain.black }}</h2>
+    <p class="first">
+        {% if mountain.green %}
+            <img src="{{ media_source_difficulty }}green.jpg" alt="green" width="25" title="Учебные">
+            Учебные {{ mountain.green }}
+        {%  endif %}
+        {% if mountain.blue %}
+            <img src="{{ media_source_difficulty }}blue.jpg" alt="blue" width="25" title="Легкие">
+            Легкие {{ mountain.blue }}
+        {%  endif %}
+        {% if mountain.red %}
+            <img src="{{ media_source_difficulty }}red.jpg" alt="red" width="25" title="Продвинутые">
+            Продвинутые {{ mountain.red }}
+        {%  endif %}
+        {% if mountain.black %}
+            <img src="{{ media_source_difficulty }}black.jpg" alt="black" width="25" title="Сложные">
+            Сложные {{ mountain.black }}
+        {%  endif %}
+    </p>
+    {% if mountain.tracks_img %}
+        <p><img class="img-article-left" src="{{ mountain.tracks_img.url }}" alt="nothing"></p>
+    {% endif %}
 
+    <p>{{ mountain.tracks|linebreaks }}</p>
+    <br>
+<!-- Трассы -->
+<!-- Подъемники -->
+    <h2>Количество подъемников: {{ mountain.lift_baby|add:mountain.lift_bugel|add:mountain.lift_chair|add:mountain.lift_cabin }}</h2>
+        {% if mountain.lift_baby %}
+            <img src="{{ media_source_lifters }}baby.png" alt="lift_baby" width="35" title="Детские">
+            Детские: {{ mountain.lift_baby }}
+        {%  endif %}
+        {% if mountain.lift_bugel %}
+            <img src="{{ media_source_lifters }}bugel.png" alt="lift_bugel" width="35" title="Бугельные">
+            Бугельные: {{ mountain.lift_bugel }}
+        {%  endif %}
+        {% if mountain.lift_chair %}
+            <img src="{{ media_source_lifters }}chair.png" alt="lift_chair" width="35" title="Кресельные">
+            Кресельные: {{ mountain.lift_chair }}
+        {%  endif %}
+        {% if mountain.lift_cabin %}
+            <img src="{{ media_source_lifters }}cabin.png" alt="lift_cabin" width="35" title="Кабинные">
+            Кабинные: {{ mountain.lift_cabin }}
+        {%  endif %}
+    <hr>
+<!-- Подъемники -->
+
+<!-- Цены -->
+    {% if mountain.prices %}
+        <h2>Цены:</h2>
+        {{ mountain.prices|linebreaks }}
+    {% endif %}
+<!-- Цены -->
+
+<!-- График работы -->
+    {% if mountain.work_time %}
+        <h2>График работы ГЛК "{{ mountain.title }}":</h2>
+        {{ mountain.work_time|linebreaks }}
+    {% endif %}
+<!-- График работы -->
+<!-- Сезон -->
+    {% if mountain.season_time %}
+        <h2>Сезон:</h2>
+        {{ mountain.season_time|linebreaks }}
+    {% endif %}
+<!-- Сезон -->
+
+
+<!-- Инфраструктура -->
+    {% if mountain.resort %}
+        <hr>
+        <hr>
+        <h2>Инфраструктура рядом:</h2>
+        {{ mountain.resort.description }}
+        <hr>
+        <hr>
+    {% endif %}
+<!-- Инфраструктура -->
 
 
 {% endblock content %}

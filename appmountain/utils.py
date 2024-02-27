@@ -6,7 +6,9 @@ menu = [
 
 class DataMixin:
     title_page = None
-    extra_context = {}
+    extra_context = {'media_source_difficulty' : '/media/photos/difficulty/',
+                     'media_source_lifters' : '/media/photos/lifters/',
+                     }
     paginate_by = 5
 
     def __init__(self):

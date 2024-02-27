@@ -26,13 +26,19 @@ class Mountains(models.Model):
                                 MinLengthValidator(5),
                                 MaxLengthValidator(100),
                             ])
+
     description = models.TextField(blank=True, verbose_name='Описание')
+    prices = models.TextField(blank=True, verbose_name='Цены')
+    tracks = models.TextField(blank=True, verbose_name='Трассы')
+    work_time = models.TextField(blank=True, verbose_name='График Работы')
+    season_time = models.TextField(blank=True, verbose_name='Сезон')
 
     is_published = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.DRAFT, verbose_name='Статус')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     distance = models.PositiveIntegerField(blank=True, default=0, verbose_name='Дорога из Екб в км')
     photo = models.ImageField(upload_to='photos/', default=None, blank=True, null=True, verbose_name='Фото')
+    tracks_img = models.ImageField(upload_to='photos/', default=None, blank=True, null=True, verbose_name='Схема трасс')
     weather = models.CharField(max_length=500, blank=True, default=0, verbose_name='Погода')
 
     red = models.IntegerField(blank=True, default=0, verbose_name='Продвинутые')
