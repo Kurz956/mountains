@@ -8,6 +8,8 @@ db.sqlite3
 
 # Игнорирование файлов миграций Django
 /appmountain/migrations/
+/appusers/migrations/
+media/photos/lifters/default
 
 
 secret_key.txt
