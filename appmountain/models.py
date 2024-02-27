@@ -27,24 +27,16 @@ class Mountains(models.Model):
                                 MaxLengthValidator(100),
                             ])
     description = models.TextField(blank=True, verbose_name='Описание')
-
     is_published = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.DRAFT, verbose_name='Статус')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
     distance = models.PositiveIntegerField(blank=True, default=0, verbose_name='Дорога из Екб в км')
     photo = models.ImageField(upload_to='photos/', default=None, blank=True, null=True, verbose_name='Фото')
     weather = models.CharField(max_length=500, blank=True, default=0, verbose_name='Погода')
-
     red = models.IntegerField(blank=True, default=0, verbose_name='Продвинутые')
     green = models.IntegerField(blank=True, default=0, verbose_name='Учебные')
     black = models.IntegerField(blank=True, default=0, verbose_name='Сложные')
     blue = models.IntegerField(blank=True, default=0, verbose_name='Легкие')
-
-    lift_baby = models.IntegerField(blank=True, default=0, verbose_name='Детские')
-    lift_bugel = models.IntegerField(blank=True, default=0, verbose_name='Бугельные')
-    lift_chair = models.IntegerField(blank=True, default=0, verbose_name='Кресельные')
-    lift_cabin = models.IntegerField(blank=True, default=0, verbose_name='Кабинные')
-
     link = models.CharField(max_length=500, blank=True, default='', verbose_name='Линк')
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, related_name='mountains', blank=True)
     tags = models.ManyToManyField('TagMountain', blank=True, related_name='tags')

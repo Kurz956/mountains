@@ -16,39 +16,23 @@
                             {% if post.green or post.blue or post.red or post.black %}
                                 сложность:
                                 {% if post.green %}
-                                    <img src="{{ media_source_difficulty }}green.jpg" alt="green" width="25" title="Учебные"> {{ post.green }}
+                                    <img src="{{ media_source }}green.jpg" alt="green" width="25" title="Учебные"> {{ post.green }}
                                 {%  endif %}
                                 {% if post.blue %}
-                                    <img src="{{ media_source_difficulty }}blue.jpg" alt="blue" width="25" title="Легкие"> {{ post.blue }}
+                                    <img src="{{ media_source }}blue.jpg" alt="blue" width="25" title="Легкие"> {{ post.blue }}
                                 {%  endif %}
                                 {% if post.red %}
-                                    <img src="{{ media_source_difficulty }}red.jpg" alt="red" width="25" title="Продвинутые"> {{ post.red }}
+                                    <img src="{{ media_source }}red.jpg" alt="red" width="25" title="Продвинутые"> {{ post.red }}
                                 {%  endif %}
                                 {% if post.black %}
-                                    <img src="{{ media_source_difficulty }}black.jpg" alt="black" width="25" title="Сложные"> {{ post.black }}
+                                    <img src="{{ media_source }}black.jpg" alt="black" width="25" title="Сложные"> {{ post.black }}
                                 {%  endif %}
                             {%  endif %}
                         </p>
 
 
 
-                        <p class="last">
-                            {% if post.lift_baby or post.lift_bugel or post.lift_chair or post.lift_cabin %}
-                                сложность:
-                                {% if post.lift_baby %}
-                                    <img src="{{ media_source_lifters }}baby.png" alt="lift_baby" width="35" title="Детские">: {{ post.lift_baby }}
-                                {%  endif %}
-                            {% if post.lift_bugel %}
-                                    <img src="{{ media_source_lifters }}bugel.png" alt="lift_bugel" width="35" title="Бугельные">: {{ post.lift_bugel }}
-                                {%  endif %}
-                            {% if post.lift_chair %}
-                                    <img src="{{ media_source_lifters }}chair.png" alt="lift_chair" width="35" title="Кресельные">: {{ post.lift_chair }}
-                                {%  endif %}
-                            {% if post.lift_cabin %}
-                                    <img src="{{ media_source_lifters }}cabin.png" alt="lift_cabin" width="35" title="Кабинные">: {{ post.lift_cabin }}
-                                {%  endif %}
-                                |
-                            {%  endif %}обновлено : {{ post.date_updated|date:'d-m-Y' }}</p>
+                        <p class="last">обновлено : {{ post.date_updated|date:'d-m-Y' }}</p>
                     </div>
                     {% if post.photo %}
                         <p><img class="img-article-left" src="{{ post.photo.url }}" alt=""></p>
