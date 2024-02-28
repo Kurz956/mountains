@@ -10,7 +10,7 @@ from django.core.validators import MinLengthValidator, MaxLengthValidator
 class AddMountainForm(forms.ModelForm):
     class Meta:
         model = Mountains
-        fields = ['title', 'slug', 'description', 'photo', 'is_published', 'distance', 'cat', 'tags', 'resort']
+        fields = ['title', 'slug', 'description', 'photo', 'is_published', 'cat', 'tags', 'resort']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
             'description': forms.Textarea(attrs={'cols': 60, 'rows': 10}),

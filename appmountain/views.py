@@ -81,8 +81,6 @@ class MountainCategory(DataMixin, ListView):
         return self.get_mixin_context(context,
                                       title = f'Категория - {cat.name}',
                                       cat_selected = cat.id,
-                                      #media_source_difficulty = '/media/photos/difficulty/',
-                                      #media_source_lifters = '/media/photos/lifters/',
                                       )
 
 

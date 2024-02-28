@@ -30,7 +30,7 @@ class MountainsAdmin(admin.ModelAdmin):
         'title', 'slug', 'link', 'description', 'prices', 'tracks', 'work_time', 'season_time',
         'cat', 'tags', 'photo', 'mountain_photo',
         'weather', 'green', 'blue', 'red', 'black', 'tracks_img',
-        'lift_baby', 'lift_bugel', 'lift_chair', 'lift_cabin', 'resort'
+        'lift_baby', 'lift_bugel', 'lift_chair', 'lift_cabin', 'resort', 'location',
     ]
     prepopulated_fields = {'slug': ('title', )}
     readonly_fields =['mountain_photo'] # ['slug'] не робит вмсте с prepopulated, только если ставить pip install unidecode

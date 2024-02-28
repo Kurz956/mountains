@@ -40,7 +40,9 @@ class Mountains(models.Model):
     is_published = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.DRAFT, verbose_name='Статус')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     date_updated = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
-    distance = models.PositiveIntegerField(blank=True, default=0, verbose_name='Дорога из Екб в км')
+
+    location = models.TextField(blank=True, default='', verbose_name='Локация')
+
     photo = models.ImageField(upload_to=mountain_img_path, default=None, blank=True, null=True, verbose_name='Фото')
     tracks_img = models.ImageField(upload_to=mountain_img_path, default=None, blank=True, null=True, verbose_name='Схема трасс')
     weather = models.CharField(max_length=500, blank=True, default=0, verbose_name='Погода')

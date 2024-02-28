@@ -112,6 +112,14 @@
         {{ mountain.work_time|linebreaks }}
     {% endif %}
 <!-- График работы -->
+<!-- Локация -->
+    {% if mountain.location %}
+        <h2>Локация:</h2>
+        <div class="map">
+            <script type="text/javascript" charset="utf-8" async src="{{ mountain.location }}"></script>
+        </div>
+    {% endif %}
+<!-- Локация -->
 <!-- Сезон -->
     {% if mountain.season_time %}
         <h2>Сезон:</h2>

@@ -6,6 +6,21 @@
 
 {% block content %}
 <!-- {% include 'appmountain/includes/nav.html' %} -->
+<!-- КАРТА ЯНДЕКС -->
+    <div class="map">
+    <script type="text/javascript" charset="utf-8"
+            async src="{% if cat_selected == 0 %}
+                           {{ map_all }}
+                       {% elif cat_selected == 1 %}
+                           {{ map_best }}
+                       {% elif cat_selected == 2 %}
+                           {{ map_good }}
+                       {% else %}
+                           {{ map_bad }}
+                       {% endif %}">
+    </script>
+    </div>
+<!-- КАРТА ЯНДЕКС -->
     <ul class="content">
         {% for post in posts %}
             {% if post.is_published %}

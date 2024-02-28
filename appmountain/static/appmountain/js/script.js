@@ -10,5 +10,3 @@
 }
 (document,'script','weatherwidget-io-js');
 <!-- ПОГОДА -->
-
-
