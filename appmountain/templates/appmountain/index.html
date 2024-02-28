@@ -5,14 +5,14 @@
 {% endblock title %}
 
 {% block content %}
-    {% include 'appmountain/includes/nav.html' %}
+<!-- {% include 'appmountain/includes/nav.html' %} -->
     <ul class="content">
         {% for post in posts %}
             {% if post.is_published %}
                 <li>
                     <div class="article-panel">
                         <p class="first">Категория: {{ post.cat }} |
-                            автор: {{ post.author.username|default:"неизвестен" }} |
+<!--автор: {{ post.author.username|default:"неизвестен" }} | -->
                             {% if post.green or post.blue or post.red or post.black %}
                                 сложность:
                                 {% if post.green %}
@@ -36,22 +36,22 @@
                             {% if post.lift_baby or post.lift_bugel or post.lift_chair or post.lift_cabin %}
                                 подъемники:
                                 {% if post.lift_baby %}
-                                    <img src="{{ media_source_lifters }}baby.png" alt="lift_baby" width="35" title="Детские">: {{ post.lift_baby }}
+                                    <img src="{{ media_source_lifters }}baby.png" alt="lift_baby" width="25" title="Детские">: {{ post.lift_baby }}
                                 {%  endif %}
                                 {% if post.lift_bugel %}
-                                    <img src="{{ media_source_lifters }}bugel.png" alt="lift_bugel" width="35" title="Бугельные">: {{ post.lift_bugel }}
+                                    <img src="{{ media_source_lifters }}bugel.png" alt="lift_bugel" width="25" title="Бугельные">: {{ post.lift_bugel }}
                                 {%  endif %}
                                 {% if post.lift_chair %}
-                                    <img src="{{ media_source_lifters }}chair.png" alt="lift_chair" width="35" title="Кресельные">: {{ post.lift_chair }}
+                                    <img src="{{ media_source_lifters }}chair.png" alt="lift_chair" width="25" title="Кресельные">: {{ post.lift_chair }}
                                 {%  endif %}
                                 {% if post.lift_cabin %}
-                                    <img src="{{ media_source_lifters }}cabin.png" alt="lift_cabin" width="35" title="Кабинные">: {{ post.lift_cabin }}
+                                    <img src="{{ media_source_lifters }}cabin.png" alt="lift_cabin" width="25" title="Кабинные">: {{ post.lift_cabin }}
                                 {%  endif %}
                                 |
-                            {%  endif %}обновлено : {{ post.date_updated|date:'d-m-Y' }}</p>
+                            {%  endif %}🕑: {{ post.date_updated|date:'d-m-Y' }}</p>
                     </div>
                     {% if post.photo %}
-                        <p><img class="img-article-left" src="{{ post.photo.url }}" alt=""></p>
+                        <p><img class="img-article-left" src="{{ post.photo.url }}" alt="logo" ></p>
                     {% endif %}
                     <h2>{{ post.title }}</h2>
                     {% autoescape off %}
@@ -70,12 +70,13 @@
             {% endif %}
         {% endfor %}
     </ul>
-    {% include 'appmountain/includes/nav.html' %}
+
 
 
 {% endblock content %}
 
 {% block navigation %}
+
     {% if page_obj.has_other_pages %}
         <nav class="list-pages">
             <ul>
@@ -86,6 +87,7 @@
                     <li class="page-num">
                         <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
                     </li>
+
                 {% endif %}
 
                 {% for p in paginator.page_range %}

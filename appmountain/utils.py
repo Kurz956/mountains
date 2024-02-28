@@ -8,6 +8,7 @@ class DataMixin:
     title_page = None
     extra_context = {'media_source_difficulty' : '/media/photos/difficulty/',
                      'media_source_lifters' : '/media/photos/lifters/',
+                     'media_source_info' : '/media/photos/mounts/',
                      }
     paginate_by = 5
 

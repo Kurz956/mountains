@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 
+
 {% block breadcrumbs %}
 <!-- ПОГОДА -->
 {%  if mountain.weather != 0 %}
-    <a class="weatherwidget-io" href="{{ mountain.weather }}" data-label_1="{{ mountain.title }}" data-label_2="Погода сейчас" data-font="Trebuchet MS" data-icons="Climacons Animated" data-days="3" data-theme="weather_one" >{{ mountain.title }} Погода сейчас</a>
-    <script>
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-            if(!d.getElementById(id)){js=d.createElement(s);
-                js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';
-                fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-    </script>
+    <a class="weatherwidget-io" href="{{ mountain.weather }}"
+       data-label_1="{{ mountain.title }}"
+       data-label_2="Погода сейчас"
+       data-font="Trebuchet MS"
+       data-icons="Climacons Animated"
+       data-days="3"
+       data-theme="weather_one" >{{ mountain.title }} Погода сейчас
+    </a>
 {% endif %}
 <!-- ПОГОДА -->
 
-    {% if perms.appmountain.change_mountains %}
-        <p><a href="{% url 'edit_mountain' mountain.slug %}">Редактировать</a></p>
-    {% endif %}
+
 
 <!-- Теги -->
     {% with mountain.tags.all as tags %}
@@ -32,13 +32,23 @@
 <!-- Link -->
     <hr>
     <h2><a href="{{ mountain.link }}" target="_blank">Ссылка на источник</a></h2>
+<!-- Редактировать -->
+        {% if perms.appmountain.change_mountains %}
+
+        <button onclick="window.location.href = '{% url 'edit_mountain' mountain.slug %}';">Редактировать</button>
+
+    {% endif %}
 {% endblock breadcrumbs %}
 
 {% block content %}
     <h1>{{ mountain.title }}</h1>
     {% if mountain.photo %}
-        <p><img class="img-article-left" src="{{ mountain.photo.url }}" alt="nothing"></p>
+        <p><img class="img-article-inside" src="{{ mountain.photo.url }}" alt="nothing"></p>
     {% endif %}
+
+
+
+
     {{ mountain.description|linebreaks }}
     <br>
     <hr>
@@ -62,10 +72,11 @@
             Сложные {{ mountain.black }}
         {%  endif %}
     </p>
+<!-- Схема трасс -->
     {% if mountain.tracks_img %}
-        <p><img class="img-article-left" src="{{ mountain.tracks_img.url }}" alt="nothing"></p>
+        <p><img class="img-article-left" src="{{ media_source_info }}{{ mountain.slug }}/scheme.png" alt="scheme"></p>
     {% endif %}
-
+<!-- Схема трасс -->
     <p>{{ mountain.tracks|linebreaks }}</p>
     <br>
 <!-- Трассы -->

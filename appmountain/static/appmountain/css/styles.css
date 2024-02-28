@@ -1,10 +1,12 @@
 html, body {
 	font-family: 'Arial';
+	font-size: 12px;
 	margin: 0;
 	padding: 0;
 	height: 100%;
 	width: 100%;
 	color: #444;
+	transform: scale(1);
 }
 
 a {
@@ -18,8 +20,9 @@ a:hover {
 
 img {max-width: 600px; height: auto;}
 
+
 img.img-article-left {
-	max-width: 300px;
+	max-width: 150px;
 	height: auto;
 	float: left;
 	padding: 0 10px 10px 0;
@@ -29,7 +32,17 @@ img.img-article-left.thumb {
 	max-width: 150px;
 	height: auto;
 }
+img.img-article-inside {
+	max-width: 200px;
+	height: auto;
+	float: left;
+	padding: 0 10px 10px 0;
+}
 
+img.img-article-inside.thumb {
+	max-width: 150px;
+	height: auto;
+}
 p.link-read-post {
 	text-align: right;
 }
@@ -221,7 +234,8 @@ ul.tags-list li a {
 }
 
 .content {
-	padding: 40px 20px 20px 40px;
+
+	padding: 1px 60px 1px 10px;
 	width: 100%;
 	box-sizing: border-box;
 }
@@ -435,8 +449,8 @@ ul.lang-list li a:hover {color: #fdc073;}
    display: inline-block;
    width: 60px;
    height: 44px;
-   padding: 16px 0 0 0;
-   border: 1px solid #d0d0d0;
+   padding: 4px 0 0 0;
+   border: 1px solid #0059b2;
    border-radius: 30px;
 }
 
@@ -453,3 +467,12 @@ ul.lang-list li a:hover {color: #fdc073;}
 .list-pages .page-num-selected:hover {
    box-shadow: none;
 }
+
+.button-edit {
+	padding-top: 2px;
+	padding-right: 2px;
+	font-size: 10px;
+	background: cornflowerblue;
+	color: black;
+}
+
