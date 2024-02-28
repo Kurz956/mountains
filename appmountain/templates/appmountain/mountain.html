@@ -15,9 +15,6 @@
     </a>
 {% endif %}
 <!-- ПОГОДА -->
-
-
-
 <!-- Теги -->
     {% with mountain.tags.all as tags %}
         {% if tags %}
@@ -33,21 +30,20 @@
     <hr>
     <h2><a href="{{ mountain.link }}" target="_blank">Ссылка на источник</a></h2>
 <!-- Редактировать -->
-        {% if perms.appmountain.change_mountains %}
-
-        <button onclick="window.location.href = '{% url 'edit_mountain' mountain.slug %}';">Редактировать</button>
-
+    {% if perms.appmountain.change_mountains %}
+        <form action="{% url 'edit_mountain' mountain.slug %}" method="get">
+          <button class="button-edit" type="submit">Редактировать</button>
+        </form>
     {% endif %}
+<!-- Редактировать -->
 {% endblock breadcrumbs %}
 
 {% block content %}
     <h1>{{ mountain.title }}</h1>
+
     {% if mountain.photo %}
         <p><img class="img-article-inside" src="{{ mountain.photo.url }}" alt="nothing"></p>
     {% endif %}
-
-
-
 
     {{ mountain.description|linebreaks }}
     <br>
@@ -74,7 +70,9 @@
     </p>
 <!-- Схема трасс -->
     {% if mountain.tracks_img %}
-        <p><img class="img-article-left" src="{{ media_source_info }}{{ mountain.slug }}/scheme.png" alt="scheme"></p>
+        <p><a href="{{ mountain.tracks_img.url }}" target="_blank">
+            <img class="img-article-scheme" src="{{ mountain.tracks_img.url }}" alt="scheme">
+        </a></p>
     {% endif %}
 <!-- Схема трасс -->
     <p>{{ mountain.tracks|linebreaks }}</p>

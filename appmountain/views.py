@@ -51,8 +51,6 @@ class ShowMountain(DataMixin, DetailView):
         context = super().get_context_data(**kwargs)
         return self.get_mixin_context(context,
                                       title=context['mountain'],
-                                      #media_source_difficulty=f'media/photos/difficulty/',
-                                      #media_source_lifters='media/photos/lifters/',
                                       )
 
     def get_object(self, queryset=None):

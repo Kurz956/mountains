@@ -7,6 +7,8 @@ from .models import Mountains, Category, TagMountain, Resort
 admin.site.site_header = 'Горная админка'
 admin.site.index_title = 'RideToMountains'
 
+
+
 class ResortFilter(admin.SimpleListFilter):
     title = 'Наличие "гостиничных комплексов"'
     parameter_name = 'status'
@@ -32,11 +34,11 @@ class MountainsAdmin(admin.ModelAdmin):
     ]
     prepopulated_fields = {'slug': ('title', )}
     readonly_fields =['mountain_photo'] # ['slug'] не робит вмсте с prepopulated, только если ставить pip install unidecode
-    list_display = ['id', 'title', 'description', 'date_created', 'is_published', 'cat', 'brief_info', 'mountain_photo']
+    list_display = ['id', 'title', 'date_created', 'is_published', 'cat', 'brief_info', 'mountain_photo']
     list_display_links = ['id', 'title']
     list_editable = ['is_published', 'cat']
     ordering = ['date_created', 'title']
-    list_per_page = 10
+    list_per_page = 50
     actions = ['set_published', 'set_draft']
     search_fields = ['title', 'cat__name']
     list_filter = [ResortFilter, 'cat__name', 'is_published']

@@ -12,7 +12,7 @@ class PublishedManager(models.Manager):
 
 class Mountains(models.Model):
     def mountain_img_path(self, filename):
-        # путь, куда будет осуществлена загрузка MEDIA_ROOT/mounts/photos/<mountain_slug>/<filename>
+        # путь, куда будет осуществлена загрузка MEDIA_ROOT/photos/mounts/<mountain_slug>/<filename>
         return f'photos/mounts/{self.slug}/{filename}'
 
     class Meta:

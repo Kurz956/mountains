@@ -32,6 +32,19 @@ img.img-article-left.thumb {
 	max-width: 150px;
 	height: auto;
 }
+
+img.img-article-scheme {
+	max-width: 300px;
+	height: auto;
+	float: left;
+	padding: 0 10px 10px 0;
+}
+
+img.img-article-scheme.thumb {
+	max-width: 150px;
+	height: auto;
+}
+
 img.img-article-inside {
 	max-width: 200px;
 	height: auto;
@@ -471,8 +484,8 @@ ul.lang-list li a:hover {color: #fdc073;}
 .button-edit {
 	padding-top: 2px;
 	padding-right: 2px;
-	font-size: 10px;
-	background: cornflowerblue;
-	color: black;
+	font-size: 15px;
+	background: #ffffff;
+	color: #0a0a50;
 }
 
